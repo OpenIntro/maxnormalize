@@ -1,0 +1,235 @@
+[24-Jul-2017 18:05:56 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/parsetool/public_html/matchEmail.php on line 2
+[24-Jul-2017 18:05:56 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:56 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/parsetool/public_html/matchEmail.php on line 2
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/parsetool/public_html/matchEmail.php on line 2
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/parsetool/public_html/matchEmail.php on line 2
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/parsetool/public_html/matchEmail.php on line 2
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/parsetool/public_html/matchEmail.php on line 2
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 18:05:57 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:22 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:23 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:24 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:25 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: First Name in /home/parsetool/public_html/matchEmail.php on line 4
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Last Name in /home/parsetool/public_html/matchEmail.php on line 5
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Address 1 in /home/parsetool/public_html/matchEmail.php on line 9
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: Address 2 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 20:17:26 UTC] PHP Notice:  Undefined index: In Market Intent (1077) in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: Address_1 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: Address_2 in /home/parsetool/public_html/matchEmail.php on line 11
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: Opt-In in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: In_Market_Intent in /home/parsetool/public_html/matchEmail.php on line 14
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: FDAF in /home/parsetool/public_html/matchEmail.php on line 15
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: DMA in /home/parsetool/public_html/matchEmail.php on line 16
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: MEMBER_RATING in /home/parsetool/public_html/matchEmail.php on line 17
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: OPTIN_TIME in /home/parsetool/public_html/matchEmail.php on line 18
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: OPTIN_IP in /home/parsetool/public_html/matchEmail.php on line 19
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: CONFIRM_TIME in /home/parsetool/public_html/matchEmail.php on line 20
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: CONFIRM_IP in /home/parsetool/public_html/matchEmail.php on line 21
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: LATITUDE in /home/parsetool/public_html/matchEmail.php on line 22
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: LONGITUDE in /home/parsetool/public_html/matchEmail.php on line 23
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: GMTOFF in /home/parsetool/public_html/matchEmail.php on line 24
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: DSTOFF in /home/parsetool/public_html/matchEmail.php on line 25
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: TIMEZONE in /home/parsetool/public_html/matchEmail.php on line 26
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: CC in /home/parsetool/public_html/matchEmail.php on line 27
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: REGION in /home/parsetool/public_html/matchEmail.php on line 28
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: LAST_CHANGED in /home/parsetool/public_html/matchEmail.php on line 29
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: LEID in /home/parsetool/public_html/matchEmail.php on line 30
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: EUID in /home/parsetool/public_html/matchEmail.php on line 31
+[24-Jul-2017 22:27:10 UTC] PHP Notice:  Undefined index: NOTES in /home/parsetool/public_html/matchEmail.php on line 32
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: Address_1 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: Address_2 in /home/parsetool/public_html/matchEmail.php on line 11
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: Opt-In in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: In_Market_Intent in /home/parsetool/public_html/matchEmail.php on line 14
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: FDAF in /home/parsetool/public_html/matchEmail.php on line 15
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: DMA in /home/parsetool/public_html/matchEmail.php on line 16
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: MEMBER_RATING in /home/parsetool/public_html/matchEmail.php on line 17
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: OPTIN_TIME in /home/parsetool/public_html/matchEmail.php on line 18
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: OPTIN_IP in /home/parsetool/public_html/matchEmail.php on line 19
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: CONFIRM_TIME in /home/parsetool/public_html/matchEmail.php on line 20
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: CONFIRM_IP in /home/parsetool/public_html/matchEmail.php on line 21
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LATITUDE in /home/parsetool/public_html/matchEmail.php on line 22
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LONGITUDE in /home/parsetool/public_html/matchEmail.php on line 23
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: GMTOFF in /home/parsetool/public_html/matchEmail.php on line 24
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: DSTOFF in /home/parsetool/public_html/matchEmail.php on line 25
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: TIMEZONE in /home/parsetool/public_html/matchEmail.php on line 26
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: CC in /home/parsetool/public_html/matchEmail.php on line 27
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: REGION in /home/parsetool/public_html/matchEmail.php on line 28
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LAST_CHANGED in /home/parsetool/public_html/matchEmail.php on line 29
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LEID in /home/parsetool/public_html/matchEmail.php on line 30
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: EUID in /home/parsetool/public_html/matchEmail.php on line 31
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: NOTES in /home/parsetool/public_html/matchEmail.php on line 32
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: Address_1 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: Address_2 in /home/parsetool/public_html/matchEmail.php on line 11
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: Opt-In in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: In_Market_Intent in /home/parsetool/public_html/matchEmail.php on line 14
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: FDAF in /home/parsetool/public_html/matchEmail.php on line 15
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: DMA in /home/parsetool/public_html/matchEmail.php on line 16
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: MEMBER_RATING in /home/parsetool/public_html/matchEmail.php on line 17
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: OPTIN_TIME in /home/parsetool/public_html/matchEmail.php on line 18
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: OPTIN_IP in /home/parsetool/public_html/matchEmail.php on line 19
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: CONFIRM_TIME in /home/parsetool/public_html/matchEmail.php on line 20
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: CONFIRM_IP in /home/parsetool/public_html/matchEmail.php on line 21
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LATITUDE in /home/parsetool/public_html/matchEmail.php on line 22
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LONGITUDE in /home/parsetool/public_html/matchEmail.php on line 23
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: GMTOFF in /home/parsetool/public_html/matchEmail.php on line 24
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: DSTOFF in /home/parsetool/public_html/matchEmail.php on line 25
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: TIMEZONE in /home/parsetool/public_html/matchEmail.php on line 26
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: CC in /home/parsetool/public_html/matchEmail.php on line 27
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: REGION in /home/parsetool/public_html/matchEmail.php on line 28
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LAST_CHANGED in /home/parsetool/public_html/matchEmail.php on line 29
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: LEID in /home/parsetool/public_html/matchEmail.php on line 30
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: EUID in /home/parsetool/public_html/matchEmail.php on line 31
+[24-Jul-2017 22:27:11 UTC] PHP Notice:  Undefined index: NOTES in /home/parsetool/public_html/matchEmail.php on line 32
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: Address_1 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: Address_2 in /home/parsetool/public_html/matchEmail.php on line 11
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: Opt-In in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: In_Market_Intent in /home/parsetool/public_html/matchEmail.php on line 14
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: FDAF in /home/parsetool/public_html/matchEmail.php on line 15
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: DMA in /home/parsetool/public_html/matchEmail.php on line 16
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: MEMBER_RATING in /home/parsetool/public_html/matchEmail.php on line 17
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: OPTIN_TIME in /home/parsetool/public_html/matchEmail.php on line 18
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: OPTIN_IP in /home/parsetool/public_html/matchEmail.php on line 19
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: CONFIRM_TIME in /home/parsetool/public_html/matchEmail.php on line 20
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: CONFIRM_IP in /home/parsetool/public_html/matchEmail.php on line 21
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LATITUDE in /home/parsetool/public_html/matchEmail.php on line 22
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LONGITUDE in /home/parsetool/public_html/matchEmail.php on line 23
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: GMTOFF in /home/parsetool/public_html/matchEmail.php on line 24
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: DSTOFF in /home/parsetool/public_html/matchEmail.php on line 25
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: TIMEZONE in /home/parsetool/public_html/matchEmail.php on line 26
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: CC in /home/parsetool/public_html/matchEmail.php on line 27
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: REGION in /home/parsetool/public_html/matchEmail.php on line 28
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LAST_CHANGED in /home/parsetool/public_html/matchEmail.php on line 29
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LEID in /home/parsetool/public_html/matchEmail.php on line 30
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: EUID in /home/parsetool/public_html/matchEmail.php on line 31
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: NOTES in /home/parsetool/public_html/matchEmail.php on line 32
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: Address_1 in /home/parsetool/public_html/matchEmail.php on line 10
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: Address_2 in /home/parsetool/public_html/matchEmail.php on line 11
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: Opt-In in /home/parsetool/public_html/matchEmail.php on line 13
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: In_Market_Intent in /home/parsetool/public_html/matchEmail.php on line 14
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: FDAF in /home/parsetool/public_html/matchEmail.php on line 15
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: DMA in /home/parsetool/public_html/matchEmail.php on line 16
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: MEMBER_RATING in /home/parsetool/public_html/matchEmail.php on line 17
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: OPTIN_TIME in /home/parsetool/public_html/matchEmail.php on line 18
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: OPTIN_IP in /home/parsetool/public_html/matchEmail.php on line 19
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: CONFIRM_TIME in /home/parsetool/public_html/matchEmail.php on line 20
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: CONFIRM_IP in /home/parsetool/public_html/matchEmail.php on line 21
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LATITUDE in /home/parsetool/public_html/matchEmail.php on line 22
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LONGITUDE in /home/parsetool/public_html/matchEmail.php on line 23
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: GMTOFF in /home/parsetool/public_html/matchEmail.php on line 24
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: DSTOFF in /home/parsetool/public_html/matchEmail.php on line 25
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: TIMEZONE in /home/parsetool/public_html/matchEmail.php on line 26
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: CC in /home/parsetool/public_html/matchEmail.php on line 27
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: REGION in /home/parsetool/public_html/matchEmail.php on line 28
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LAST_CHANGED in /home/parsetool/public_html/matchEmail.php on line 29
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: LEID in /home/parsetool/public_html/matchEmail.php on line 30
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: EUID in /home/parsetool/public_html/matchEmail.php on line 31
+[24-Jul-2017 22:27:12 UTC] PHP Notice:  Undefined index: NOTES in /home/parsetool/public_html/matchEmail.php on line 32
+[25-Jul-2017 18:57:52 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'parsetool'@'srv.asyncsofttech.com' (using password: YES) in /home/parsetool/public_html/upload.php on line 3
+[25-Jul-2017 18:57:52 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/upload.php on line 14
+[25-Jul-2017 18:57:52 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, boolean given in /home/parsetool/public_html/upload.php on line 14
+[25-Jul-2017 19:12:24 UTC] PHP Notice:  Undefined variable: function in /home/parsetool/public_html/matchEmail.php on line 7
+[25-Jul-2017 19:27:02 UTC] PHP Notice:  Undefined variable: campaignCode in /home/parsetool/public_html/matchEmail.php on line 10
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 55
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 58
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 61
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 64
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 79
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 94
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 97
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 100
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 103
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 106
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 109
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 112
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 115
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 118
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 121
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 124
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 127
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 130
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 133
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 136
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 139
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 55
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 58
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 61
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 64
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 79
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 94
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 97
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 100
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 103
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 106
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 109
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 112
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 115
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 118
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 121
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 124
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 127
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 130
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 133
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 136
+[25-Jul-2017 20:42:01 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/parsetool/public_html/matchEmail.php on line 139

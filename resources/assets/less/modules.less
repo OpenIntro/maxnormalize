@@ -1,0 +1,67 @@
+// 
+// Modules
+//
+
+.project-name {
+    font-size: 60px;
+}
+.project-tagline {
+    font-size: 24px;
+    opacity: 0.7;
+    font-weight: 400;
+}
+
+.btn-download {
+    background-color: @brand-primary;
+    color: #fff;
+    border-radius: 0;
+    transition: 0.3s ease;
+    font-size: 20px;
+
+    &:hover {
+        background-color: darken(@brand-primary, 10%);
+    }
+}
+.viewmore {
+    position: relative;
+    min-height: 63px;
+}
+.small-link {
+    text-decoration: none;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+}
+// Dropzone styling
+.dz-hidden-input {
+    visibility: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 0px;
+    width: 0px;
+}
+.icon-upload {
+    text-align: center;
+    font-size: 60px;
+}
+.dz-message {
+    margin: 10px 0 !important;
+}
+#dropzone {
+    border: 2px dashed #ccc;
+    margin-bottom: 20px;
+}
+
+.parsley-error,
+.parsley-error:focus {
+    border-color: red !important;
+    box-shadow: none;
+}
+
+.parsley-errors-list {
+    color: red;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
