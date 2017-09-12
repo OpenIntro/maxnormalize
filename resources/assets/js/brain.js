@@ -7,11 +7,9 @@ var brain = {
             $formName: $("#parseform"),
             currentDate: new Date(),
             timeStamp: '',
-            textData: '',
-            subData: '',
-            masterData: '',
-            recordData: '',
-            recordCount: 0,
+            subByDayData: {values: []},
+            masterByDayData: {values: []},
+            subByTotalData: {values: []},
             translationErrors: [],
             combineRecords: true,
             filesToProcess: 0,
@@ -47,13 +45,14 @@ var brain = {
             acceptedFiles: '.csv',
             addRemoveLinks: true,
             autoProcessQueue: false,
-            parallelUploads: 10,
+            parallelUploads: 30,
             init: function() {
                 myDropzone = this;
                 brain.config.$processBtn.on('click', function(e) {
                     var isValid = brain.config.$formName.parsley().validate();
                     if (isValid) {
                         if (brain.config.combineRecords) { brain.config.filesToProcess = myDropzone.files.length; } // how many CSV files are uploaded
+                        console.log(brain.config.filesToProcess + ' files to process');
                         e.preventDefault();
                         myDropzone.processQueue(); 
                     }
@@ -64,10 +63,6 @@ var brain = {
                 // });
                 // myDropzone.on("sending", function(file, xhr, formData) {
                 //     // Will send the filesize along with the file as POST data.
-                //     formData.append("vendorEmail", $('#vendorEmail').val());
-                //     formData.append("campaignCode", $('#campaignCode').val());
-                //     formData.append("vendorID", $('#vendorID').val());
-                //     formData.append("sequenceCode", $('#sequenceCode').val());
                 // });
                 myDropzone.on("complete", function(file) {
                     myDropzone.removeFile(file);
@@ -114,9 +109,7 @@ var brain = {
     // Normalize Data from Pandora to Subcampaign by Day
     parseDataPandora: function(data) {
         var publisher_id   = 6;
-        var normalizedData = {
-            values: []
-        };
+        var subByDayData = brain.config.subByDayData;
 
         for(var i in data) {    
 
@@ -131,7 +124,7 @@ var brain = {
                 var date = row['Date']
 
                 // Push Impressions
-                normalizedData.values.push({ 
+                subByDayData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
@@ -140,7 +133,7 @@ var brain = {
                     "is_subcampaign" : "1"
                 });
                 // Push Clicks
-                normalizedData.values.push({ 
+                subByDayData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
@@ -152,16 +145,18 @@ var brain = {
             } // end check of null row
         }
 
-        // console.log(normalizedData);
-
-        brain.convertToCSV(normalizedData, 'subcampaign_daily');
+        // One less file to process
+        brain.config.filesToProcess -= 1;
+        console.log(brain.config.filesToProcess + ' files left to process');
+        
+        if (brain.config.filesToProcess == 0) {
+            brain.processResults();
+        }
     },
     // Normalize Data from Youtube Adwords to Subcampaign by Day
     parseDataYoutubeAdwords: function(data) {
        var publisher_id   = 20;
-       var normalizedData = {
-            values: []
-        };
+       var subByDayData = brain.config.subByDayData;
 
         for(var i in data) {    
 
@@ -183,7 +178,7 @@ var brain = {
                     cost = cost.replace(' ', '');
 
                 // Push Costs
-                normalizedData.values.push({ 
+                subByDayData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
@@ -192,7 +187,7 @@ var brain = {
                     "is_subcampaign" : "1"
                 });
                 // Push Impressions
-                normalizedData.values.push({ 
+                subByDayData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
@@ -201,7 +196,7 @@ var brain = {
                     "is_subcampaign" : "1"
                 });
                 // Push Views
-                normalizedData.values.push({ 
+                subByDayData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
@@ -210,7 +205,7 @@ var brain = {
                     "is_subcampaign" : "1"
                 });
                 // Push Clicks
-                normalizedData.values.push({ 
+                subByDayData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
@@ -222,16 +217,18 @@ var brain = {
             } // end check of null row
         }
 
-        // console.log(normalizedData);
-
-        brain.convertToCSV(normalizedData, 'subcampaign_daily');
+        // One less file to process
+        brain.config.filesToProcess -= 1;
+        console.log(brain.config.filesToProcess + ' files left to process');
+        
+        if (brain.config.filesToProcess == 0) {
+            brain.processResults();
+        }
     },
     // Normalize Data from Youtube Analytics to Master by Day
     parseDataYoutubeAnalytics: function(data) {
         var publisher_id   = 22;
-        var normalizedData = {
-            values: []
-        };
+        var masterByDayData = brain.config.masterByDayData;
 
         var date_prev;
         var watched_time = 0;
@@ -258,7 +255,7 @@ var brain = {
                         var master_prev = data[i-1]['master_campaign_id'];
 
                         // Push Watch Time
-                        normalizedData.values.push({ 
+                        masterByDayData.values.push({ 
                             "master_campaign_id" : master,
                             "date"           : date_prev,
                             "product_id"     : publisher_id,
@@ -266,7 +263,7 @@ var brain = {
                             "metric_value"   : watched_time
                         });
                         // Push Views
-                        normalizedData.values.push({ 
+                        masterByDayData.values.push({ 
                             "master_campaign_id" : master,
                             "date"           : date_prev,
                             "product_id"     : publisher_id,
@@ -289,7 +286,7 @@ var brain = {
                 if (i == data.length - 1)    {
 
                     // Push Watch Time
-                    normalizedData.values.push({ 
+                    masterByDayData.values.push({ 
                         "master_campaign_id" : master,
                         "date"           : date_prev,
                         "product_id"     : publisher_id,
@@ -297,7 +294,7 @@ var brain = {
                         "metric_value"   : watched_time
                     });
                     // Push Views
-                    normalizedData.values.push({ 
+                    masterByDayData.values.push({ 
                         "master_campaign_id" : master,
                         "date"           : date_prev,
                         "product_id"     : publisher_id,
@@ -310,16 +307,18 @@ var brain = {
             } // end check of null row
         }
 
-        // console.log(normalizedData);
-
-        brain.convertToCSV(normalizedData, 'master_campaign_daily');
+        // One less file to process
+        brain.config.filesToProcess -= 1;
+        console.log(brain.config.filesToProcess + ' files left to process');
+        
+        if (brain.config.filesToProcess == 0) {
+            brain.processResults();
+        }
     },
     // Normalize Data from Google Analytics to Master by Day
     parseDataGoogleAnalytics: function(data) {
         var publisher_id   = 5;
-        var normalizedData = {
-            values: []
-        };
+        var masterByDayData = brain.config.masterByDayData;
 
         for(var i in data) {    
 
@@ -343,7 +342,7 @@ var brain = {
                 var tos_total = tos_hh+tos_mm+tos_ss;
 
                 // Push Video Plays
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -351,7 +350,7 @@ var brain = {
                     "metric_value"   : row['video play']
                 });
                 // Push Mobile Sessions
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -359,7 +358,7 @@ var brain = {
                     "metric_value"   : row['mobile sessions']
                 });
                 // Push Tablet Sessions
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -367,7 +366,7 @@ var brain = {
                     "metric_value"   : row['tablet sessions']
                 });
                 // Push Desktop Sessions
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -375,7 +374,7 @@ var brain = {
                     "metric_value"   : row['desktop sessions']
                 });
                 // Push Time On Site
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -383,7 +382,7 @@ var brain = {
                     "metric_value"   : tos_total
                 });
                 // Push Direct Traffic
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -391,7 +390,7 @@ var brain = {
                     "metric_value"   : row['direct traffic']
                 });
                 // Push Additional Events
-                normalizedData.values.push({ 
+                masterByDayData.values.push({ 
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
@@ -402,16 +401,18 @@ var brain = {
             } // end check of null row
         }
 
-        // console.log(normalizedData);
-
-        brain.convertToCSV(normalizedData, 'master_campaign_daily');
+        // One less file to process
+        brain.config.filesToProcess -= 1;
+        console.log(brain.config.filesToProcess + ' files left to process');
+        
+        if (brain.config.filesToProcess == 0) {
+            brain.processResults();
+        }
     },
     // Normalize Data from Radio to Subcampaign Totals
     parseDataRadio: function(data) {
         var publisher_id   = 10;
-        var normalizedData = {
-            values: []
-        };
+        var subByTotalData = brain.config.subByTotalData;
 
         for(var i in data) {    
 
@@ -423,7 +424,7 @@ var brain = {
                 var subcampaign = row['subcampaign_id'];
 
                 // Push Costs
-                normalizedData.values.push({ 
+                subByTotalData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "start_date"     : row['start_date'],
                     "end_date"       : row['end_date'],
@@ -433,7 +434,7 @@ var brain = {
                     "is_subcampaign" : "1"
                 });
                 // Push Impressions
-                normalizedData.values.push({ 
+                subByTotalData.values.push({ 
                     "subcampaign_id" : subcampaign,
                     "start_date"     : row['start_date'],
                     "end_date"       : row['end_date'],
@@ -446,11 +447,31 @@ var brain = {
             } // end check of null row
         }
 
-        // console.log(normalizedData);
-
-        brain.convertToCSV(normalizedData, 'subcampaign_total');
+        // One less file to process
+        brain.config.filesToProcess -= 1;
+        console.log(brain.config.filesToProcess + ' files left to process');
+        
+        if (brain.config.filesToProcess == 0) {
+            brain.processResults();
+        }
     },
-    convertToCSV: function(data, type) {
+    processResults: function() {
+        // Process and clear arrays
+
+        if (brain.config.subByDayData.values.length > 0) {
+            brain.convertToCSV(brain.config.subByDayData, brain.config.subByDayData.values.length, 'subcampaign_daily');
+            brain.config.subByDayData.values.length = 0;
+        }
+        if (brain.config.subByTotalData.values.length > 0) {
+            brain.convertToCSV(brain.config.subByTotalData, brain.config.subByTotalData.values.length, 'subcampaign_total');
+            brain.config.subByTotalData.values.length = 0;
+        }
+        if (brain.config.masterByDayData.values.length > 0) {
+            brain.convertToCSV(brain.config.masterByDayData, brain.config.masterByDayData.values.length, 'master_campaign_daily');
+            brain.config.masterByDayData.values.length = 0;
+        }
+    },
+    convertToCSV: function(data, records, type) {
         const items = data.values
         const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
         const header = Object.keys(items[0])
@@ -458,20 +479,14 @@ var brain = {
         csv.unshift(header.join(','))
         csv = csv.join('\r\n')
         
-        brain.showResult(csv,type)
+        brain.showResult(csv, records, type)
     },
-    showResult: function(csvData, type) {
+    showResult: function(csvData, records, type) {
         var filename = type + '_' + moment().format('MMDDYY[_]hmmss') + '.csv';
 
         $('.result').show();
         // name = name.replace('csv', 'txt')
-        $('#result').append('<p><a href="'+brain.makeTextFile(csvData)+'" download="'+filename+'" class="">Download '+filename+'</a>').show();
-
-        // brain.config.recordData = ''; // clear data
-        // brain.config.textData = ''; // clear data
-        // brain.config.recordCount = 0;  // clear data
-        // duplicate_count=0;
-        // record_count=0;
+        $('#result').append('<p><a href="'+brain.makeTextFile(csvData)+'" download="'+filename+'" class="">Download '+filename+'</a> - <strong>' + records + ' Records</strong>').show();
     },
     makeTextFile: function(text){
         var textFile = null;
