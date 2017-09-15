@@ -288,7 +288,7 @@ var brain = {
                     // Push Watch Time
                     masterByDayData.values.push({ 
                         "master_campaign_id" : master,
-                        "date"           : date_prev,
+                        "date"           : date,
                         "product_id"     : publisher_id,
                         "metric_id"      : '16',
                         "metric_value"   : watched_time
@@ -296,7 +296,7 @@ var brain = {
                     // Push Views
                     masterByDayData.values.push({ 
                         "master_campaign_id" : master,
-                        "date"           : date_prev,
+                        "date"           : date,
                         "product_id"     : publisher_id,
                         "metric_id"      : '11',
                         "metric_value"   : views
