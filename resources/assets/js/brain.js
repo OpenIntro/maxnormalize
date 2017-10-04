@@ -282,7 +282,8 @@ var brain = {
                     watched_time = parseInt(data[i]['watch_time_minutes']);
                     views = parseInt(data[i]['views']);                           
                 }
-                    
+                
+                // Handles the last date
                 if (i == data.length - 1)    {
 
                     // Push Watch Time
