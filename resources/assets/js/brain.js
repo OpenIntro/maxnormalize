@@ -86,6 +86,7 @@ var brain = {
                 // console.log("Finished:", results.data);
                 // console.log(JSON.stringify(results.data));
 
+                // This block identifies the incoming data file type
                 if (results.meta['fields'][6] == "format" && results.data[0]['format'] == 'youtube') {
                     console.log('This file is from Youtube Adwords');
                     brain.parseDataYoutubeAdwords(results.data,name);
@@ -96,19 +97,34 @@ var brain = {
                     console.log('This file is from Youtube Analytics');
                     brain.parseDataYoutubeAnalytics(results.data);
                 } else if (results.meta['fields'][0] == "subcampaign_id") {
-                    console.log('This file is from Radio');
+                    console.log('This file is from Manual Input');
                     brain.parseDataRadio(results.data);
                 } else if (results.meta['fields'][9] == "format" && results.data[0]['format'] == 'ga') {
                     console.log('This file is from Google Analytics');
                     brain.parseDataGoogleAnalytics(results.data);
+                } else if (results.meta['fields'][12] == "format" && results.data[0]['format'] == 'ttr') {
+                    console.log('This file is from Pandora TTR');
+                    brain.parseDataPandoraTTR(results.data);
+                } else if (results.data[0]['format'] == 'swipeup') {
+                    console.log('This file is from Snapchat Swipe Up');
+                    brain.parseDataSnapchatSwipeUp(results.data);
+                } else if (results.data[0]['format'] == 'geofilter') {
+                    console.log('This file is from Snapchat Geofilter');
+                    brain.parseDataSnapchatGeofilter(results.data);
+                } else if (results.data[0]['format'] == 'xAd') {
+                    console.log('This file is from xAd/Groundtruth');
+                    brain.parseDataSnapchatGeofilter(results.data);
+                } else if (results.data[0]['format'] == 'spotify_dataxu') {
+                    console.log('This file is from Spotify DataXu');
+                    brain.parseDataSpotifyDataXu(results.data);
                 }
             }
 
         });
     },
-    // Normalize Data from Pandora to Subcampaign by Day
+    // Normalize Data from Pandora Audio Everywhere to Subcampaign by Day
     parseDataPandora: function(data) {
-        var publisher_id   = 6;
+        var publisher_id;
         var subByDayData = brain.config.subByDayData;
 
         for(var i in data) {    
@@ -116,6 +132,14 @@ var brain = {
             var row = data[i];
 
             if (row['Advertiser'] != '') {
+
+                // Publisher ID Switch
+                var lineitem = row['Line item'].toLowerCase();
+                if (lineitem.indexOf('audio') > -1) {
+                    publisher_id = 6;
+                } else if (lineitem.indexOf('display') > -1)  {
+                    publisher_id = 7;
+                }
 
                 // Parse out subcampaign
                 var subcampaign = row['subcampaign_id'];
@@ -145,13 +169,64 @@ var brain = {
             } // end check of null row
         }
 
-        // One less file to process
-        brain.config.filesToProcess -= 1;
-        console.log(brain.config.filesToProcess + ' files left to process');
-        
-        if (brain.config.filesToProcess == 0) {
-            brain.processResults();
+        brain.processCounter();
+    },
+    // Normalize Data from Pandora TTR to Subcampaign by Total
+    parseDataPandoraTTR: function(data) {
+        var publisher_id = 9;
+        var subByTotalData = brain.config.subByTotalData;
+
+        for(var i in data) {    
+
+            var row = data[i];
+
+            if (row['Placement Name'] != '') {
+
+                // Parse out subcampaign
+                var subcampaign = row['subcampaign_id'];
+
+                // Clean data
+                var spend  = row['CPM Spend']
+                    spend = spend.replace('$', '');
+                    spend = spend.replace(/,/g, "")
+                var impressions  = row['Impressions Delivered']
+                    impressions = impressions.replace(/,/g, "")
+
+                // Push CPM Spend
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : row['start_date'],
+                    "end_date"       : row['end_date'],
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '1',
+                    "metric_value"   : spend,
+                    "is_subcampaign" : "1"
+                });
+                // Push Impressions
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : row['start_date'],
+                    "end_date"       : row['end_date'],
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '3',
+                    "metric_value"   : impressions,
+                    "is_subcampaign" : "1"
+                });
+                // Push Signups
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : row['start_date'],
+                    "end_date"       : row['end_date'],
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '63',
+                    "metric_value"   : row['Reported Sign Ups'],
+                    "is_subcampaign" : "1"
+                });
+
+            } // end check of null row
         }
+
+        brain.processCounter();
     },
     // Normalize Data from Youtube Adwords to Subcampaign by Day
     parseDataYoutubeAdwords: function(data) {
@@ -217,13 +292,7 @@ var brain = {
             } // end check of null row
         }
 
-        // One less file to process
-        brain.config.filesToProcess -= 1;
-        console.log(brain.config.filesToProcess + ' files left to process');
-        
-        if (brain.config.filesToProcess == 0) {
-            brain.processResults();
-        }
+        brain.processCounter();
     },
     // Normalize Data from Youtube Analytics to Master by Day
     parseDataYoutubeAnalytics: function(data) {
@@ -239,7 +308,7 @@ var brain = {
 
             if (row['date'] != '') {
 
-                // Parse out subcampaign
+                // Parse out campaign id
                 var master = row['mastercampaign_id'];    
 
                 // Convert and normalize date
@@ -308,13 +377,7 @@ var brain = {
             } // end check of null row
         }
 
-        // One less file to process
-        brain.config.filesToProcess -= 1;
-        console.log(brain.config.filesToProcess + ' files left to process');
-        
-        if (brain.config.filesToProcess == 0) {
-            brain.processResults();
-        }
+        brain.processCounter();
     },
     // Normalize Data from Google Analytics to Master by Day
     parseDataGoogleAnalytics: function(data) {
@@ -402,17 +465,11 @@ var brain = {
             } // end check of null row
         }
 
-        // One less file to process
-        brain.config.filesToProcess -= 1;
-        console.log(brain.config.filesToProcess + ' files left to process');
-        
-        if (brain.config.filesToProcess == 0) {
-            brain.processResults();
-        }
+        brain.processCounter();
     },
     // Normalize Data from Radio to Subcampaign Totals
     parseDataRadio: function(data) {
-        var publisher_id   = 10;
+        var publisher_id;
         var subByTotalData = brain.config.subByTotalData;
 
         for(var i in data) {    
@@ -420,6 +477,13 @@ var brain = {
             var row = data[i];
 
             if (row['subcampaign_id'] != '') {
+
+                // Publisher ID Switch
+                if (row['format'] == 'radio') {
+                    publisher_id = 10;
+                } else if (row['format'] == 'spotify_adstudio') {
+                    publisher_id = 13;
+                }
 
                 // Parse out subcampaign
                 var subcampaign = row['subcampaign_id'];
@@ -444,10 +508,289 @@ var brain = {
                     "metric_value"   : row['impressions'],
                     "is_subcampaign" : "1"
                 });
+                // Push Clicks
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : row['start_date'],
+                    "end_date"       : row['end_date'],
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '4',
+                    "metric_value"   : row['clicks'],
+                    "is_subcampaign" : "1"
+                });
 
             } // end check of null row
         }
 
+        brain.processCounter();
+    },
+    // Normalize Data from Snapchat Swipe Up to Subcampaign by Day
+    parseDataSnapchatSwipeUp: function(data) {
+        var publisher_id   = 23;
+        var subByDayData = brain.config.subByDayData;
+
+        var spend = 0;
+        var impressions = 0;
+        var swipeups = 0;
+
+        for(var i in data) {
+            var row = data[i];
+
+            if (row['Start time'] != '') {
+
+                // Parse out subcampaign
+                var subcampaign = row['Campaign Name'];
+                    subcampaign = subcampaign.split('[').pop().split(']').shift();
+
+                // Convert and normalize date
+                var date = row['Start time'].substr(0,10);
+                    date = moment(date, "YYYY-MM-DD");
+                    date = date.format("M/D/YYYY");
+
+                if (i > 0) {
+                    var date_prev = data[i-1]['Start time'].substr(0,10);
+                        date_prev = moment(date_prev, "YYYY-MM-DD");
+                        date_prev = date_prev.format("M/D/YYYY");
+
+                    if (date == date_prev) {
+                        spend += parseInt(data[i]['Spend']);
+                        impressions += parseInt(data[i]['Impressions']);     
+                        swipeups += parseInt(data[i]['Swipe Ups']);            
+                    }
+                    else {
+
+                        // Push Spend/Cost
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '1',
+                            "metric_value"   : spend,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Impressions
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '3',
+                            "metric_value"   : impressions,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Impressions
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '4',
+                            "metric_value"   : swipeups,
+                            "is_subcampaign" : "1"
+                        });   
+                    
+
+                        spend = parseInt(data[i]['Spend']);
+                        impressions = parseInt(data[i]['Impressions']);
+                        swipeups = parseInt(data[i]['Swipe Ups']);   
+
+                    }
+                    
+                }
+                else {
+                    spend = parseInt(data[i]['Spend']);
+                    impressions = parseInt(data[i]['Impressions']);
+                    swipeups = parseInt(data[i]['Swipe Ups']);                   
+                }
+                
+                // Handles the last date
+                if (i == data.length - 1)    {
+
+                    // Push Spend/Cost
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '1',
+                        "metric_value"   : spend,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '3',
+                        "metric_value"   : impressions,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '4',
+                        "metric_value"   : swipeups,
+                        "is_subcampaign" : "1"
+                    });
+                }
+
+            } // end check of null row
+        }
+
+        brain.processCounter();
+    },
+    // Normalize Data from Snapchat Geofilter to Subcampaign by Day
+    parseDataSnapchatGeofilter: function(data) {
+        var publisher_id   = 24;
+        var subByDayData = brain.config.subByDayData;
+
+        var spend = 0;
+        var impressions = 0;
+        var uses = 0;
+
+        for(var i in data) {
+            var row = data[i];
+
+            if (row['Date'] != '') {
+
+                // Parse out subcampaign
+                var subcampaign = row['subcampaign_id'];
+
+                // Convert and normalize date
+                var date = row['Date'];
+
+                if (i > 0) {
+                    var date_prev = data[i-1]['Date'];
+
+                    if (date == date_prev) {
+                        spend += parseInt(data[i]['Spend']);
+                        impressions += (parseInt(data[i]['Swipes']) + parseInt(data[i]['Views']));
+                        uses += parseInt(data[i]['Uses']);            
+                    }
+                    else {
+
+                        // Push Spend/Cost
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '1',
+                            "metric_value"   : spend,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Impressions
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '3',
+                            "metric_value"   : impressions,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Uses
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '21',
+                            "metric_value"   : uses,
+                            "is_subcampaign" : "1"
+                        });   
+                    
+
+                        spend = parseInt(data[i]['Spend']);
+                        impressions = (parseInt(data[i]['Swipes']) + parseInt(data[i]['Views']));
+                        uses = parseInt(data[i]['Uses']);   
+
+                    }
+                    
+                }
+                else {
+                    spend = parseInt(data[i]['Spend']);
+                    impressions = (parseInt(data[i]['Swipes']) + parseInt(data[i]['Views']));
+                    uses = parseInt(data[i]['Uses']);                     
+                }
+                
+                // Handles the last date
+                if (i == data.length - 1)    {
+
+                    // Push Spend/Cost
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '1',
+                        "metric_value"   : spend,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '3',
+                        "metric_value"   : impressions,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '21',
+                        "metric_value"   : uses,
+                        "is_subcampaign" : "1"
+                    });
+                }
+
+            } // end check of null row
+        }
+
+        brain.processCounter();
+    },
+    // Normalize Data from Spotify DataXu to Subcampaign by Total
+    parseDataSpotifyDataXu: function(data) {
+        var publisher_id = 14;
+        var subByTotalData = brain.config.subByTotalData;
+
+        for(var i in data) {    
+
+            var row = data[i];
+
+            if (row['Flight'] != '') {
+
+                // Parse out subcampaign
+                var subcampaign = row['Flight'];
+                    subcampaign = subcampaign.split('[').pop().split(']').shift();
+
+                // Clean data
+
+                // Push Impressions
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : row['Date (flight_start_date)'],
+                    "end_date"       : row['Date (flight_end_date)'],
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '3',
+                    "metric_value"   : row['Impressions'],
+                    "is_subcampaign" : "1"
+                });
+                // Push Clicks
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : row['Date (flight_start_date)'],
+                    "end_date"       : row['Date (flight_end_date)'],
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '4',
+                    "metric_value"   : row['Clicks'],
+                    "is_subcampaign" : "1"
+                });
+
+            } // end check of null row
+        }
+
+        brain.processCounter();
+    },
+    processCounter: function() {
         // One less file to process
         brain.config.filesToProcess -= 1;
         console.log(brain.config.filesToProcess + ' files left to process');
