@@ -111,16 +111,139 @@ var brain = {
                 } else if (results.data[0]['format'] == 'geofilter') {
                     console.log('This file is from Snapchat Geofilter');
                     brain.parseDataSnapchatGeofilter(results.data);
-                } else if (results.data[0]['format'] == 'xAd') {
-                    console.log('This file is from xAd/Groundtruth');
-                    brain.parseDataSnapchatGeofilter(results.data);
+                // } else if (results.data[0]['format'] == 'xAd') {
+                //     console.log('This file is from xAd/Groundtruth');
+                //     brain.parseDataxAd(results.data);
                 } else if (results.data[0]['format'] == 'spotify_dataxu') {
                     console.log('This file is from Spotify DataXu');
                     brain.parseDataSpotifyDataXu(results.data);
+                } else {
+                    console.log('Parsing without headers')
+                    brain.reparseCSV(file)
                 }
             }
 
         });
+    },
+    // Re-parse file, removing headers
+    reparseCSV: function(file) {
+        // Parse local CSV file
+        Papa.parse(file, {
+            header: false,
+            skipEmptyLines: true,
+            // step: function(results, parser) {
+            //   console.log("Row data:", results.data);
+            //   console.log("Row errors:", results.errors);
+            // },
+            complete: function(results) {
+                // console.log("Finished:", results.data);
+                // console.log(JSON.stringify(results.data));
+
+                // This block identifies the incoming data file type
+                if (results.data[7][10] == 'xad') {
+                    console.log('This file is from xAd/Groundtruth');
+                    brain.parseDataxAd(results.data);
+                } else {
+                    console.log('I don\'t recognize this file type.');
+                }
+            }
+
+        });
+    },
+    // Normalize Data from Pandora Audio Everywhere to Subcampaign by Day
+    parseDataPandoraSAVEFORQUESTION: function(data) {
+        var publisher_id   = 23;
+        var subByDayData = brain.config.subByDayData;
+
+        var impressions = 0;
+        var clicks = 0;
+
+        for(var i in data) {
+            var row = data[i];
+
+            if (row['Advertiser'] != '') {
+
+                // Publisher ID Switch
+                var lineitem = row['Line item'].toLowerCase();
+                if (lineitem.indexOf('audio') > -1) {
+                    publisher_id = 6;
+                } else if (lineitem.indexOf('display') > -1)  {
+                    publisher_id = 7;
+                }
+
+                // Parse out subcampaign
+                var subcampaign = row['subcampaign_id'];
+
+                // Convert and normalize date
+                var date = row['Date']
+
+                if (i > 0) {
+                    var date_prev = data[i-1]['Date'];
+
+                    if (date == date_prev) {
+                        impressions += parseInt(data[i]['Total impressions']);     
+                        clicks += parseInt(data[i]['Total clicks']);            
+                    }
+                    else {
+
+                        // Push Impressions
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '3',
+                            "metric_value"   : impressions,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Clicks
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '4',
+                            "metric_value"   : clicks,
+                            "is_subcampaign" : "1"
+                        });  
+                    
+
+                        impressions = parseInt(data[i]['Total impressions']);
+                        clicks = parseInt(data[i]['Total clicks']);   
+
+                    }
+                    
+                }
+                else {
+                    impressions = parseInt(data[i]['Total impressions']);
+                    clicks = parseInt(data[i]['Total clicks']);                   
+                }
+                
+                // Handles the last date
+                if (i == data.length - 1)    {
+
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '3',
+                        "metric_value"   : impressions,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Clicks
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '4',
+                        "metric_value"   : clicks,
+                        "is_subcampaign" : "1"
+                    });
+                }
+
+            } // end check of null row
+        }
+
+        brain.processCounter();
     },
     // Normalize Data from Pandora Audio Everywhere to Subcampaign by Day
     parseDataPandora: function(data) {
@@ -782,6 +905,96 @@ var brain = {
                     "product_id"     : publisher_id,
                     "metric_id"      : '4',
                     "metric_value"   : row['Clicks'],
+                    "is_subcampaign" : "1"
+                });
+
+            } // end check of null row
+        }
+
+        brain.processCounter();
+    },
+    // Normalize Data from xAd/Groundtruth to Subcampaign by Total
+    parseDataxAd: function(data) {
+        var publisher_id = 19;
+        var subByTotalData = brain.config.subByTotalData;
+
+        var campaignDates = data[3][0];
+            campaignDates = campaignDates.split(':')[1];
+            campaignDates = campaignDates.replace(/ /g, "")
+            start_date    = campaignDates.split('-')[0];
+            end_date      = campaignDates.split('-')[1];
+
+            start_date = moment(start_date, "M.D.YY");
+            start_date = start_date.format("M/D/YYYY");
+
+            end_date = moment(end_date, "M.D.YY");
+            end_date = end_date.format("M/D/YYYY");
+
+        for(var i in data) {    
+
+            var row = data[i];
+
+            if (row[10] == 'xad') {
+
+                // Parse out subcampaign
+                var subcampaign = row[9];
+
+                var spend = row[4];
+                    spend = spend.replace('$', '');
+
+                var impressions = row[1];
+                    impressions = impressions.replace(/,/g, "");
+
+                // Clean data
+
+                // Push Spend
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : start_date,
+                    "end_date"       : end_date,
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '1',
+                    "metric_value"   : spend,
+                    "is_subcampaign" : "1"
+                });
+                // Push Impressions
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : start_date,
+                    "end_date"       : end_date,
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '3',
+                    "metric_value"   : impressions,
+                    "is_subcampaign" : "1"
+                });
+                // Push Clicks
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : start_date,
+                    "end_date"       : end_date,
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '4',
+                    "metric_value"   : row[2],
+                    "is_subcampaign" : "1"
+                });
+                // Push Total Visits
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : start_date,
+                    "end_date"       : end_date,
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '68',
+                    "metric_value"   : row[5],
+                    "is_subcampaign" : "1"
+                });
+                // Push Unique Visits
+                subByTotalData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "start_date"     : start_date,
+                    "end_date"       : end_date,
+                    "product_id"     : publisher_id,
+                    "metric_id"      : '69',
+                    "metric_value"   : row[6],
                     "is_subcampaign" : "1"
                 });
 
