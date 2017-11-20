@@ -87,7 +87,7 @@ var brain = {
                 // console.log(JSON.stringify(results.data));
 
                 // This block identifies the incoming data file type
-                if (results.meta['fields'][6] == "format" && results.data[0]['format'] == 'youtube') {
+                if (results.meta['fields'][6] == "format" && results.data[0]['format'] == 'adwords') {
                     console.log('This file is from Youtube Adwords');
                     brain.parseDataYoutubeAdwords(results.data,name);
                 } else if (results.meta['fields'][0] == "Advertiser") {
@@ -267,6 +267,11 @@ var brain = {
                 // Parse out subcampaign
                 var subcampaign = row['subcampaign_id'];
 
+                // Clean data
+                var cost  = row['Cost']
+                    cost = cost.replace('$', '');
+                    cost = cost.replace(/,/g, "");
+
                 // Convert and normalize date
                 var date = row['Date']
 
@@ -277,6 +282,15 @@ var brain = {
                     "publisher_id"   : publisher_id,
                     "metric_id"      : '3',
                     "metric_value"   : row['Total impressions'],
+                    "is_subcampaign" : "1"
+                });
+                // Push Costs
+                subByDayData.values.push({ 
+                    "subcampaign_id" : subcampaign,
+                    "date"           : date,
+                    "publisher_id"   : publisher_id,
+                    "metric_id"      : '1',
+                    "metric_value"   : cost,
                     "is_subcampaign" : "1"
                 });
                 // Push Clicks
@@ -294,13 +308,16 @@ var brain = {
 
         brain.processCounter();
     },
-    // Normalize Data from Pandora TTR to Subcampaign by Total
     parseDataPandoraTTR: function(data) {
-        var publisher_id = 9;
+        var publisher_id   = 9;
         var subByTotalData = brain.config.subByTotalData;
 
-        for(var i in data) {    
+        var subcampaign_prev;
+        var spend_c = 0;
+        var impressions_c = 0;
+        var signups_c = 0;
 
+        for(var i in data) {
             var row = data[i];
 
             if (row['Placement Name'] != '') {
@@ -311,40 +328,100 @@ var brain = {
                 // Clean data
                 var spend  = row['CPM Spend']
                     spend = spend.replace('$', '');
-                    spend = spend.replace(/,/g, "")
-                var impressions  = row['Impressions Delivered']
-                    impressions = impressions.replace(/,/g, "")
+                    spend = spend.replace(/,/g, "");
+                var impressions  = row['Impressions Delivered'];
+                    impressions = impressions.replace(/,/g, "");
+                var signups  = row['Reported Sign Ups'];
+                    signups = signups.replace(/,/g, "");   
 
-                // Push CPM Spend
-                subByTotalData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "start_date"     : row['start_date'],
-                    "end_date"       : row['end_date'],
-                    "product_id"     : publisher_id,
-                    "metric_id"      : '1',
-                    "metric_value"   : spend,
-                    "is_subcampaign" : "1"
-                });
-                // Push Impressions
-                subByTotalData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "start_date"     : row['start_date'],
-                    "end_date"       : row['end_date'],
-                    "product_id"     : publisher_id,
-                    "metric_id"      : '3',
-                    "metric_value"   : impressions,
-                    "is_subcampaign" : "1"
-                });
-                // Push Signups
-                subByTotalData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "start_date"     : row['start_date'],
-                    "end_date"       : row['end_date'],
-                    "product_id"     : publisher_id,
-                    "metric_id"      : '63',
-                    "metric_value"   : row['Reported Sign Ups'],
-                    "is_subcampaign" : "1"
-                });
+                // Convert and normalize date
+                if (i > 0) {
+                    var subcampaign_prev = data[i-1]['subcampaign_id'];
+                    if (subcampaign == subcampaign_prev) {
+                        spend_c += parseInt(spend);
+                        impressions_c += parseInt(impressions);
+                        signups_c += parseInt(signups);                  
+                    }
+                    else {
+                        // Push CPM Spend
+                        subByTotalData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "start_date"     : row['start_date'],
+                            "end_date"       : row['end_date'],
+                            "product_id"     : publisher_id,
+                            "metric_id"      : '1',
+                            "metric_value"   : spend_c,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Impressions
+                        subByTotalData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "start_date"     : row['start_date'],
+                            "end_date"       : row['end_date'],
+                            "product_id"     : publisher_id,
+                            "metric_id"      : '3',
+                            "metric_value"   : impressions_c,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Signups
+                        subByTotalData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "start_date"     : row['start_date'],
+                            "end_date"       : row['end_date'],
+                            "product_id"     : publisher_id,
+                            "metric_id"      : '63',
+                            "metric_value"   : signups_c,
+                            "is_subcampaign" : "1"
+                        });    
+
+                        spend_c = parseInt(spend);
+                        impressions_c = parseInt(impressions);
+                        signups_c = parseInt(signups);   
+
+                    }
+                    
+                }
+                else {
+                    spend_c = parseInt(spend);
+                    impressions_c = parseInt(impressions);
+                    signups_c = parseInt(signups);
+                }
+                
+                // Handles the last date
+                if (i == data.length - 1)    {
+
+                    // Push CPM Spend
+                    subByTotalData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "start_date"     : row['start_date'],
+                        "end_date"       : row['end_date'],
+                        "product_id"     : publisher_id,
+                        "metric_id"      : '1',
+                        "metric_value"   : spend_c,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Impressions
+                    subByTotalData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "start_date"     : row['start_date'],
+                        "end_date"       : row['end_date'],
+                        "product_id"     : publisher_id,
+                        "metric_id"      : '3',
+                        "metric_value"   : impressions_c,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Signups
+                    subByTotalData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "start_date"     : row['start_date'],
+                        "end_date"       : row['end_date'],
+                        "product_id"     : publisher_id,
+                        "metric_id"      : '63',
+                        "metric_value"   : signups_c,
+                        "is_subcampaign" : "1"
+                    });     
+                    
+                }
 
             } // end check of null row
         }
@@ -398,7 +475,7 @@ var brain = {
                     "subcampaign_id" : subcampaign,
                     "date"           : date,
                     "publisher_id"   : publisher_id,
-                    "metric_id"      : '11',
+                    "metric_id"      : '12',
                     "metric_value"   : row.Views,
                     "is_subcampaign" : "1"
                 });
