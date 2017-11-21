@@ -250,8 +250,11 @@ var brain = {
         var publisher_id;
         var subByDayData = brain.config.subByDayData;
 
-        for(var i in data) {    
+        var clicks_c = 0;
+        var impressions_c = 0;
+        var cost_c = 0;
 
+        for(var i in data) {
             var row = data[i];
 
             if (row['Advertiser'] != '') {
@@ -266,48 +269,114 @@ var brain = {
 
                 // Parse out subcampaign
                 var subcampaign = row['subcampaign_id'];
+                var match = false;
 
                 // Clean data
-                var cost  = row['Cost']
+                var cost  = row['Total CPM and CPC revenue ($)']
                     cost = cost.replace('$', '');
                     cost = cost.replace(/,/g, "");
 
                 // Convert and normalize date
                 var date = row['Date']
 
-                // Push Impressions
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '3',
-                    "metric_value"   : row['Total impressions'],
-                    "is_subcampaign" : "1"
-                });
-                // Push Costs
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '1',
-                    "metric_value"   : cost,
-                    "is_subcampaign" : "1"
-                });
-                // Push Clicks
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '4',
-                    "metric_value"   : row['Total clicks'],
-                    "is_subcampaign" : "1"
-                });
+                if (i > 0) {
+
+                    var date_prev = data[i-1]['Date'];
+                    var lineitem_prev = data[i-1]['Line item'].toLowerCase();
+                    if (lineitem_prev.indexOf('audio') > -1) {
+                        publisher_id_prev = 6;
+                    } else if (lineitem_prev.indexOf('display') > -1)  {
+                        publisher_id_prev = 7;
+                    }
+                    var subcampaign_prev = data[i-1]['subcampaign_id'];
+
+                    if ((date == date_prev) && (publisher_id == publisher_id_prev) && (subcampaign == subcampaign_prev)) { // check for date/publisher/subcampaign
+                        clicks_c += parseInt(data[i]['Total clicks']);
+                        impressions_c += (parseInt(data[i]['Total impressions']));
+                        cost_c += parseInt(cost);
+                        match = true;     
+                    }
+                    else {
+
+                        // Push Impressions
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign_prev,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id_prev,
+                            "metric_id"      : '3',
+                            "metric_value"   : impressions_c,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Costs
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign_prev,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id_prev,
+                            "metric_id"      : '1',
+                            "metric_value"   : cost_c,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Clicks
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign_prev,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id_prev,
+                            "metric_id"      : '4',
+                            "metric_value"   : clicks_c,
+                            "is_subcampaign" : "1"
+                        });  
+
+                        clicks_c = parseInt(data[i]['Total clicks']);
+                        impressions_c = (parseInt(data[i]['Total impressions']));
+                        cost_c = parseInt(cost);     
+
+                    }
+                    
+                }
+                else { // when i= 0
+                    clicks_c = parseInt(data[i]['Total clicks']);
+                    impressions_c = (parseInt(data[i]['Total impressions']));
+                    cost_c = parseInt(cost);                      
+                }
+                
+                // Handles the last date
+                if ((i == data.length - 1) || (i == data.length - 2 && match == true))    {
+
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign_prev,
+                        "date"           : date_prev,
+                        "publisher_id"   : publisher_id_prev,
+                        "metric_id"      : '3',
+                        "metric_value"   : impressions_c,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Costs
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign_prev,
+                        "date"           : date_prev,
+                        "publisher_id"   : publisher_id_prev,
+                        "metric_id"      : '1',
+                        "metric_value"   : cost_c,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Clicks
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign_prev,
+                        "date"           : date_prev,
+                        "publisher_id"   : publisher_id_prev,
+                        "metric_id"      : '4',
+                        "metric_value"   : clicks_c,
+                        "is_subcampaign" : "1"
+                    });
+                }
 
             } // end check of null row
         }
 
         brain.processCounter();
     },
+    // Normalize Data from Pandora TTR to Subcampaign by Total
     parseDataPandoraTTR: function(data) {
         var publisher_id   = 9;
         var subByTotalData = brain.config.subByTotalData;
