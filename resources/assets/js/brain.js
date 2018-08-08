@@ -78,9 +78,21 @@ var brain = {
         Papa.parse(file, {
             header: true,
             skipEmptyLines: true,
+            comments: ',,',
             // step: function(results, parser) {
             //   console.log("Row data:", results.data);
             //   console.log("Row errors:", results.errors);
+            // },
+            // beforeFirstChunk: function(chunk) {
+            //     var lines = chunk.split('\n');
+            //     // remove one line, starting at the first position
+            //     i = lines.length;
+            //     while (i--) {
+            //         if (lines[i].indexOf(',,,') > -1) {
+            //             lines.splice(i, 1);
+            //         }
+            //     }
+            //     console.log(lines)
             // },
             complete: function(results) {
                 // console.log("Finished:", results.data);
@@ -181,8 +193,8 @@ var brain = {
                     var date_prev = data[i-1]['Date'];
 
                     if (date == date_prev) {
-                        impressions += parseInt(data[i]['Total impressions']);     
-                        clicks += parseInt(data[i]['Total clicks']);            
+                        impressions += parseFloat(data[i]['Total impressions']);     
+                        clicks += parseFloat(data[i]['Total clicks']);            
                     }
                     else {
 
@@ -206,15 +218,15 @@ var brain = {
                         });  
                     
 
-                        impressions = parseInt(data[i]['Total impressions']);
-                        clicks = parseInt(data[i]['Total clicks']);   
+                        impressions = parseFloat(data[i]['Total impressions']);
+                        clicks = parseFloat(data[i]['Total clicks']);   
 
                     }
                     
                 }
                 else {
-                    impressions = parseInt(data[i]['Total impressions']);
-                    clicks = parseInt(data[i]['Total clicks']);                   
+                    impressions = parseFloat(data[i]['Total impressions']);
+                    clicks = parseFloat(data[i]['Total clicks']);                   
                 }
                 
                 // Handles the last date
@@ -291,9 +303,9 @@ var brain = {
                     var subcampaign_prev = data[i-1]['subcampaign_id'];
 
                     if ((date == date_prev) && (publisher_id == publisher_id_prev) && (subcampaign == subcampaign_prev)) { // check for date/publisher/subcampaign
-                        clicks_c += parseInt(data[i]['Total clicks']);
-                        impressions_c += (parseInt(data[i]['Total impressions']));
-                        cost_c += parseInt(cost);
+                        clicks_c += parseFloat(data[i]['Total clicks']);
+                        impressions_c += (parseFloat(data[i]['Total impressions']));
+                        cost_c += parseFloat(cost);
                         match = true;     
                     }
                     else {
@@ -326,22 +338,21 @@ var brain = {
                             "is_subcampaign" : "1"
                         });  
 
-                        clicks_c = parseInt(data[i]['Total clicks']);
-                        impressions_c = (parseInt(data[i]['Total impressions']));
-                        cost_c = parseInt(cost);     
+                        clicks_c = parseFloat(data[i]['Total clicks']);
+                        impressions_c = (parseFloat(data[i]['Total impressions']));
+                        cost_c = parseFloat(cost);     
 
                     }
                     
                 }
                 else { // when i= 0
-                    clicks_c = parseInt(data[i]['Total clicks']);
-                    impressions_c = (parseInt(data[i]['Total impressions']));
-                    cost_c = parseInt(cost);                      
+                    clicks_c = parseFloat(data[i]['Total clicks']);
+                    impressions_c = (parseFloat(data[i]['Total impressions']));
+                    cost_c = parseFloat(cost);                      
                 }
                 
                 // Handles the last date
-                if ((i == data.length - 1) || (i == data.length - 2 && match == true))    {
-
+                if ((i == data.length - 2 && match == true)) {
                     // Push Impressions
                     subByDayData.values.push({ 
                         "subcampaign_id" : subcampaign_prev,
@@ -365,6 +376,34 @@ var brain = {
                         "subcampaign_id" : subcampaign_prev,
                         "date"           : date_prev,
                         "publisher_id"   : publisher_id_prev,
+                        "metric_id"      : '4',
+                        "metric_value"   : clicks_c,
+                        "is_subcampaign" : "1"
+                    });
+                } else if (i == data.length - 1) {
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '3',
+                        "metric_value"   : impressions_c,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Costs
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '1',
+                        "metric_value"   : cost_c,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Clicks
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
                         "metric_id"      : '4',
                         "metric_value"   : clicks_c,
                         "is_subcampaign" : "1"
@@ -407,14 +446,14 @@ var brain = {
                 if (i > 0) {
                     var subcampaign_prev = data[i-1]['subcampaign_id'];
                     if (subcampaign == subcampaign_prev) {
-                        spend_c += parseInt(spend);
-                        impressions_c += parseInt(impressions);
-                        signups_c += parseInt(signups);                  
+                        spend_c += parseFloat(spend);
+                        impressions_c += parseFloat(impressions);
+                        signups_c += parseFloat(signups);                  
                     }
                     else {
                         // Push CPM Spend
                         subByTotalData.values.push({ 
-                            "subcampaign_id" : subcampaign,
+                            "subcampaign_id" : subcampaign_prev,
                             "start_date"     : row['start_date'],
                             "end_date"       : row['end_date'],
                             "product_id"     : publisher_id,
@@ -424,7 +463,7 @@ var brain = {
                         });
                         // Push Impressions
                         subByTotalData.values.push({ 
-                            "subcampaign_id" : subcampaign,
+                            "subcampaign_id" : subcampaign_prev,
                             "start_date"     : row['start_date'],
                             "end_date"       : row['end_date'],
                             "product_id"     : publisher_id,
@@ -434,7 +473,7 @@ var brain = {
                         });
                         // Push Signups
                         subByTotalData.values.push({ 
-                            "subcampaign_id" : subcampaign,
+                            "subcampaign_id" : subcampaign_prev,
                             "start_date"     : row['start_date'],
                             "end_date"       : row['end_date'],
                             "product_id"     : publisher_id,
@@ -443,17 +482,17 @@ var brain = {
                             "is_subcampaign" : "1"
                         });    
 
-                        spend_c = parseInt(spend);
-                        impressions_c = parseInt(impressions);
-                        signups_c = parseInt(signups);   
+                        spend_c = parseFloat(spend);
+                        impressions_c = parseFloat(impressions);
+                        signups_c = parseFloat(signups);   
 
                     }
                     
                 }
                 else {
-                    spend_c = parseInt(spend);
-                    impressions_c = parseInt(impressions);
-                    signups_c = parseInt(signups);
+                    spend_c = parseFloat(spend);
+                    impressions_c = parseFloat(impressions);
+                    signups_c = parseFloat(signups);
                 }
                 
                 // Handles the last date
@@ -498,11 +537,77 @@ var brain = {
         brain.processCounter();
     },
     // Normalize Data from Youtube Adwords to Subcampaign by Day
-    parseDataYoutubeAdwords: function(data) {
-       var publisher_id   = 20;
-       var subByDayData = brain.config.subByDayData;
+    // parseDataYoutubeAdwords: function(data) {
+    //    var publisher_id   = 20;
+    //    var subByDayData = brain.config.subByDayData;
 
-        for(var i in data) {    
+    //     for(var i in data) {    
+
+    //         var row = data[i];
+
+    //         if (row.Day != '') {
+
+    //             // Parse out subcampaign
+    //             var subcampaign = row.Campaign;    
+    //                 subcampaign = subcampaign.split('[').pop().split(']').shift();
+
+    //             // Convert and normalize date
+    //             var date = moment(row.Day, "D-MMM-YY");
+    //             // var date = moment(row.Day, "MM/DD/YYYY");
+    //                 date = date.format("M/D/YYYY");
+
+    //             // Removes $ sign
+    //             var cost  = row.Cost
+    //                 cost = cost.replace('$', '');
+    //                 cost = cost.replace(' ', '');
+
+    //             // Push Costs
+    //             subByDayData.values.push({ 
+    //                 "subcampaign_id" : subcampaign,
+    //                 "date"           : date,
+    //                 "publisher_id"   : publisher_id,
+    //                 "metric_id"      : '1',
+    //                 "metric_value"   : cost,
+    //                 "is_subcampaign" : "1"
+    //             });
+    //             // Push Impressions
+    //             subByDayData.values.push({ 
+    //                 "subcampaign_id" : subcampaign,
+    //                 "date"           : date,
+    //                 "publisher_id"   : publisher_id,
+    //                 "metric_id"      : '3',
+    //                 "metric_value"   : row.Impressions,
+    //                 "is_subcampaign" : "1"
+    //             });
+    //             // Push Views
+    //             subByDayData.values.push({ 
+    //                 "subcampaign_id" : subcampaign,
+    //                 "date"           : date,
+    //                 "publisher_id"   : publisher_id,
+    //                 "metric_id"      : '12',
+    //                 "metric_value"   : row.Views,
+    //                 "is_subcampaign" : "1"
+    //             });
+    //             // Push Clicks
+    //             subByDayData.values.push({ 
+    //                 "subcampaign_id" : subcampaign,
+    //                 "date"           : date,
+    //                 "publisher_id"   : publisher_id,
+    //                 "metric_id"      : '4',
+    //                 "metric_value"   : row.Clicks,
+    //                 "is_subcampaign" : "1"
+    //             });
+
+    //         } // end check of null row
+    //     }
+
+    //     brain.processCounter();
+    // },
+    parseDataYoutubeAdwords: function(data) {
+        var publisher_id   = 20;
+        var subByDayData = brain.config.subByDayData;
+
+        for(var i in data) {
 
             var row = data[i];
 
@@ -514,49 +619,123 @@ var brain = {
 
                 // Convert and normalize date
                 var date = moment(row.Day, "D-MMM-YY");
-                    date = date.format("M/D/YYYY");
+                // var date = moment(row.Day, "MM/DD/YYYY");
+                date = date.format("M/D/YYYY");
 
                 // Removes $ sign
                 var cost  = row.Cost
                     cost = cost.replace('$', '');
                     cost = cost.replace(' ', '');
 
-                // Push Costs
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '1',
-                    "metric_value"   : cost,
-                    "is_subcampaign" : "1"
-                });
-                // Push Impressions
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '3',
-                    "metric_value"   : row.Impressions,
-                    "is_subcampaign" : "1"
-                });
-                // Push Views
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '12',
-                    "metric_value"   : row.Views,
-                    "is_subcampaign" : "1"
-                });
-                // Push Clicks
-                subByDayData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "date"           : date,
-                    "publisher_id"   : publisher_id,
-                    "metric_id"      : '4',
-                    "metric_value"   : row.Clicks,
-                    "is_subcampaign" : "1"
-                });
+                if (i > 0) {
+                    var date_prev = data[i-1]['Day'];
+                        date_prev = moment(date_prev, "D-MMM-YY");
+                        date_prev = date_prev.format("M/D/YYYY");
+
+                    var subcampaign_prev = data[i-1]['Campaign'];
+                        subcampaign_prev = subcampaign_prev.split('[').pop().split(']').shift();
+
+                    if ((date == date_prev) && (subcampaign == subcampaign_prev)) {
+                        cost += parseFloat(cost);
+                        impressions += parseFloat(data[i]['Impressions']);     
+                        views += parseFloat(data[i]['Views']);
+                        clicks += parseFloat(data[i]['Clicks']);          
+                    }
+                    else {
+
+                        // Push Costs
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '1',
+                            "metric_value"   : cost,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Impressions
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '3',
+                            "metric_value"   : row.Impressions,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Views
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '12',
+                            "metric_value"   : row.Views,
+                            "is_subcampaign" : "1"
+                        });
+                        // Push Clicks
+                        subByDayData.values.push({ 
+                            "subcampaign_id" : subcampaign,
+                            "date"           : date_prev,
+                            "publisher_id"   : publisher_id,
+                            "metric_id"      : '4',
+                            "metric_value"   : row.Clicks,
+                            "is_subcampaign" : "1"
+                        }); 
+                    
+
+                        cost = parseFloat(cost);
+                        impressions = parseFloat(data[i]['Impressions']);     
+                        views = parseFloat(data[i]['Views']);
+                        clicks = parseFloat(data[i]['Clicks']);     
+
+                    }
+                    
+                }
+                else {
+                    cost = parseFloat(cost);
+                    impressions = parseFloat(data[i]['Impressions']);     
+                    views = parseFloat(data[i]['Views']);
+                    clicks = parseFloat(data[i]['Clicks']);                   
+                }
+                
+                // Handles the last date
+                if (i == data.length - 1)    {
+
+                   // Push Costs
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '1',
+                        "metric_value"   : cost,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Impressions
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '3',
+                        "metric_value"   : row.Impressions,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Views
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '12',
+                        "metric_value"   : row.Views,
+                        "is_subcampaign" : "1"
+                    });
+                    // Push Clicks
+                    subByDayData.values.push({ 
+                        "subcampaign_id" : subcampaign,
+                        "date"           : date,
+                        "publisher_id"   : publisher_id,
+                        "metric_id"      : '4',
+                        "metric_value"   : row.Clicks,
+                        "is_subcampaign" : "1"
+                    });
+                }
 
             } // end check of null row
         }
@@ -585,8 +764,8 @@ var brain = {
                 if (i > 0) {
                     var date_prev = data[i-1]['date'];
                     if (date == date_prev) {
-                        watched_time += parseInt(data[i]['watch_time_minutes']);
-                        views += parseInt(data[i]['views']);                      
+                        watched_time += parseFloat(data[i]['watch_time_minutes']);
+                        views += parseFloat(data[i]['views']);                      
                     }
                     else {
 
@@ -610,15 +789,15 @@ var brain = {
                         });     
                     
 
-                        watched_time = parseInt(data[i]['watch_time_minutes']);
-                        views = parseInt(data[i]['views']);  
+                        watched_time = parseFloat(data[i]['watch_time_minutes']);
+                        views = parseFloat(data[i]['views']);  
 
                     }
                     
                 }
                 else {
-                    watched_time = parseInt(data[i]['watch_time_minutes']);
-                    views = parseInt(data[i]['views']);                           
+                    watched_time = parseFloat(data[i]['watch_time_minutes']);
+                    views = parseFloat(data[i]['views']);                           
                 }
                 
                 // Handles the last date
@@ -667,11 +846,11 @@ var brain = {
 
                 // Convert time on site
                 var tos  = row['time on site'];
-                var tos_hh = parseInt(tos.slice(0,1))
+                var tos_hh = parseFloat(tos.slice(0,1))
                     tos_hh = tos_hh * 3600;  // hours to seconds
-                var tos_mm = parseInt(tos.slice(2,4))
+                var tos_mm = parseFloat(tos.slice(2,4))
                     tos_mm = tos_mm * 60; // minutes to seconds
-                var tos_ss = parseInt(tos.slice(5)) // seconds
+                var tos_ss = parseFloat(tos.slice(5)) // seconds
                 var tos_total = tos_hh+tos_mm+tos_ss;
 
                 // Push Video Plays
@@ -679,7 +858,7 @@ var brain = {
                     "master_campaign_id" : master,
                     "date"           : date,
                     "product_id"     : publisher_id,
-                    "metric_id"      : '11',
+                    "metric_id"      : '40',
                     "metric_value"   : row['video play']
                 });
                 // Push Mobile Sessions
@@ -822,9 +1001,9 @@ var brain = {
                         date_prev = date_prev.format("M/D/YYYY");
 
                     if (date == date_prev) {
-                        spend += parseInt(data[i]['Spend']);
-                        impressions += parseInt(data[i]['Impressions']);     
-                        swipeups += parseInt(data[i]['Swipe Ups']);            
+                        spend += parseFloat(data[i]['Spend']);
+                        impressions += parseFloat(data[i]['Impressions']);     
+                        swipeups += parseFloat(data[i]['Swipe Ups']);            
                     }
                     else {
 
@@ -857,17 +1036,17 @@ var brain = {
                         });   
                     
 
-                        spend = parseInt(data[i]['Spend']);
-                        impressions = parseInt(data[i]['Impressions']);
-                        swipeups = parseInt(data[i]['Swipe Ups']);   
+                        spend = parseFloat(data[i]['Spend']);
+                        impressions = parseFloat(data[i]['Impressions']);
+                        swipeups = parseFloat(data[i]['Swipe Ups']);   
 
                     }
                     
                 }
                 else {
-                    spend = parseInt(data[i]['Spend']);
-                    impressions = parseInt(data[i]['Impressions']);
-                    swipeups = parseInt(data[i]['Swipe Ups']);                   
+                    spend = parseFloat(data[i]['Spend']);
+                    impressions = parseFloat(data[i]['Impressions']);
+                    swipeups = parseFloat(data[i]['Swipe Ups']);                   
                 }
                 
                 // Handles the last date
@@ -931,9 +1110,9 @@ var brain = {
                     var date_prev = data[i-1]['Date'];
 
                     if (date == date_prev) {
-                        spend += parseInt(data[i]['Spend']);
-                        impressions += (parseInt(data[i]['Swipes']) + parseInt(data[i]['Views']));
-                        uses += parseInt(data[i]['Uses']);            
+                        spend += parseFloat(data[i]['Spend']);
+                        impressions += (parseFloat(data[i]['Swipes']) + parseFloat(data[i]['Views']));
+                        uses += parseFloat(data[i]['Uses']);            
                     }
                     else {
 
@@ -966,17 +1145,17 @@ var brain = {
                         });   
                     
 
-                        spend = parseInt(data[i]['Spend']);
-                        impressions = (parseInt(data[i]['Swipes']) + parseInt(data[i]['Views']));
-                        uses = parseInt(data[i]['Uses']);   
+                        spend = parseFloat(data[i]['Spend']);
+                        impressions = (parseFloat(data[i]['Swipes']) + parseFloat(data[i]['Views']));
+                        uses = parseFloat(data[i]['Uses']);   
 
                     }
                     
                 }
                 else {
-                    spend = parseInt(data[i]['Spend']);
-                    impressions = (parseInt(data[i]['Swipes']) + parseInt(data[i]['Views']));
-                    uses = parseInt(data[i]['Uses']);                     
+                    spend = parseFloat(data[i]['Spend']);
+                    impressions = (parseFloat(data[i]['Swipes']) + parseFloat(data[i]['Views']));
+                    uses = parseFloat(data[i]['Uses']);                     
                 }
                 
                 // Handles the last date
@@ -1017,9 +1196,62 @@ var brain = {
         brain.processCounter();
     },
     // Normalize Data from Spotify DataXu to Subcampaign by Total
+    // parseDataSpotifyDataXu: function(data) {
+    //     var publisher_id = 14;
+    //     var subByTotalData = brain.config.subByTotalData;
+
+    //     for(var i in data) {    
+
+    //         var row = data[i];
+
+    //         if (row['Flight'] != '') {
+
+    //             // Parse out subcampaign
+    //             var subcampaign = row['Flight'];
+    //                 subcampaign = subcampaign.split('[').pop().split(']').shift();
+
+    //             // Clean data
+
+    //             // Push Impressions
+    //             subByTotalData.values.push({ 
+    //                 "subcampaign_id" : subcampaign,
+    //                 "start_date"     : row['Date (flight_start_date)'],
+    //                 "end_date"       : row['Date (flight_end_date)'],
+    //                 "product_id"     : publisher_id,
+    //                 "metric_id"      : '3',
+    //                 "metric_value"   : row['Impressions'],
+    //                 "is_subcampaign" : "1"
+    //             });
+    //             // Push Clicks
+    //             subByTotalData.values.push({ 
+    //                 "subcampaign_id" : subcampaign,
+    //                 "start_date"     : row['Date (flight_start_date)'],
+    //                 "end_date"       : row['Date (flight_end_date)'],
+    //                 "product_id"     : publisher_id,
+    //                 "metric_id"      : '4',
+    //                 "metric_value"   : row['Clicks'],
+    //                 "is_subcampaign" : "1"
+    //             });
+
+    //         } // end check of null row
+    //     }
+
+    //     brain.processCounter();
+    // },
     parseDataSpotifyDataXu: function(data) {
+        // Check JSON object for value
+        function _isContains(json, value) {
+            let contains = false;
+            Object.keys(json).some(key => {
+                contains = typeof json[key] === 'object' ? _isContains(json[key], value) : json[key] === value;
+                 return contains;
+            });
+            return contains;
+         }
         var publisher_id = 14;
         var subByTotalData = brain.config.subByTotalData;
+
+        var formatArray = [];
 
         for(var i in data) {    
 
@@ -1032,30 +1264,53 @@ var brain = {
                     subcampaign = subcampaign.split('[').pop().split(']').shift();
 
                 // Clean data
-
-                // Push Impressions
-                subByTotalData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "start_date"     : row['Date (flight_start_date)'],
-                    "end_date"       : row['Date (flight_end_date)'],
-                    "product_id"     : publisher_id,
-                    "metric_id"      : '3',
-                    "metric_value"   : row['Impressions'],
-                    "is_subcampaign" : "1"
-                });
-                // Push Clicks
-                subByTotalData.values.push({ 
-                    "subcampaign_id" : subcampaign,
-                    "start_date"     : row['Date (flight_start_date)'],
-                    "end_date"       : row['Date (flight_end_date)'],
-                    "product_id"     : publisher_id,
-                    "metric_id"      : '4',
-                    "metric_value"   : row['Clicks'],
-                    "is_subcampaign" : "1"
-                });
+                if (_isContains(formatArray, subcampaign) == false) {
+                    // not in array
+                    rowData = {
+                        "subcampaign" : subcampaign,
+                        "start_date" : row['Date (flight_start_date)'],
+                        "end_date" : row['Date (flight_end_date)'],
+                        "impressions" : row['Impressions'],
+                        "clicks" : row['Clicks']
+                    };
+                    //push the object to your array
+                    formatArray.push( rowData );
+                } else {
+                    // subcampaign in array
+                    for (var i = 0; i < formatArray.length; i++) {
+                      if (formatArray[i]['subcampaign'] === subcampaign && formatArray[i]['start_date'] == row['Date (flight_start_date)'] && formatArray[i]['end_date'] == row['Date (flight_end_date)']) {
+                        formatArray[i]['impressions'] = parseFloat(formatArray[i]['impressions']) + parseFloat(row['Impressions']);
+                        formatArray[i]['clicks'] = parseFloat(formatArray[i]['clicks']) + parseFloat(row['Clicks']);
+                        break;
+                      }
+                    }
+                }
 
             } // end check of null row
         }
+
+        Object.keys(formatArray).forEach(function(key) {
+            // Push Impressions
+            subByTotalData.values.push({ 
+                "subcampaign_id" : formatArray[key]['subcampaign'],
+                "start_date"     : formatArray[key]['start_date'],
+                "end_date"       : formatArray[key]['end_date'],
+                "product_id"     : publisher_id,
+                "metric_id"      : '3',
+                "metric_value"   : formatArray[key]['impressions'],
+                "is_subcampaign" : "1"
+            });
+            // Push Clicks
+            subByTotalData.values.push({ 
+                "subcampaign_id" : formatArray[key]['subcampaign'],
+                "start_date"     : formatArray[key]['start_date'],
+                "end_date"       : formatArray[key]['end_date'],
+                "product_id"     : publisher_id,
+                "metric_id"      : '4',
+                "metric_value"   : formatArray[key]['clicks'],
+                "is_subcampaign" : "1"
+            });
+        });
 
         brain.processCounter();
     },
